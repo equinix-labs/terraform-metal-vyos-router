@@ -51,7 +51,7 @@ There is no automated way to do this yet, so you need too SSH in run the command
 
 I've attached the output of me doing this with all of the input's in **Bold**. A lot of the options can use the defaults.
 <pre>
-$ <b>ssh vyos@IP_Address</b>
+$ <b>ssh vyos@147.75.63.66</b>
 vyos@vyos:~$ <b>install image</b>
 Welcome to the VyOS install program.  This script
 will walk you through the process of installing the
