@@ -16,6 +16,7 @@ To download this project, run the following command:
 
 ```bash
 git clone https://github.com/c0dyhi11/packet-router.git
+cd packet-router
 ```
 
 ## Initialize Terraform 
