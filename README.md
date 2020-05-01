@@ -41,8 +41,13 @@ Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
 
 Outputs:
 
+BGP_Password = JSWwskQHFt2KBSZu2O
+IPSec_Pre_Shared_Key = iORwUH75vMxQkyX5AZ85
+IPSec_Private_IP_CIDR = 169.254.254.254/30
+IPSec_Public_IP = 147.75.63.66
 Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.iad2.packet.net
 SSH = ssh vyos@147.75.63.66
+VyOS_Config_File = ./vyos.conf
 ```
 
 ## Install VyOS to disk
