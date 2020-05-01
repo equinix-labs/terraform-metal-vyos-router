@@ -16,6 +16,7 @@ To download this project, run the following command:
 
 ```bash
 git clone https://github.com/c0dyhi11/packet-router.git
+cd packet-router
 ```
 
 ## Initialize Terraform 
@@ -47,11 +48,11 @@ SSH = ssh vyos@147.75.63.66
 ## Install VyOS to disk
 What we want to do here is install VyOS to the local disk on the system and set a password.
 
-There is no automated way to do this yet, so you need too SSH in run the command `install image` and follow the prompts.
+There is no automated way to do this yet (I have been informed there is, it uses cloud-init, I'll look into this), so you need too SSH into the box and run the command `install image` and follow the prompts. Find the **SSH** command in the terraform outputs.
 
 I've attached the output of me doing this with all of the input's in **Bold**. A lot of the options can use the defaults.
 <pre>
-$ <b>ssh vyos@IP_Address</b>
+$ <b>ssh vyos@147.75.63.66</b>
 vyos@vyos:~$ <b>install image</b>
 Welcome to the VyOS install program.  This script
 will walk you through the process of installing the
@@ -115,3 +116,42 @@ Which drive should GRUB modify the boot partition on? [sda]:<b>sdc</b>
 Setting up grub: OK
 Done!
 </pre>
+
+## Set a VyOS password
+Wait... Didn't VyOS just ask me to set a password for the **vyos** two minutes ago? Yep! I'm not sure what that does... But I had to set the password via config mode myself. (I even tried a reboot thinking maybe this only takes effect after the server boots from the newly installed disk... No dice!) Here we go:
+<pre>
+vyos@vyos:~$ <b>conf</b>
+[edit]
+vyos@vyos# <b>set system login user vyos authentication plaintext-password '$3cur3P@$$w0rd!'</b>
+[edit]
+vyos@vyos# <b>commit</b>
+[edit]
+vyos@vyos# <b>save</b>
+Saving configuration to '/config/config.boot'...
+Done
+[edit]
+vyos@vyos# <b>exit</b>
+exit
+vyos@vyos:~$
+</pre>
+
+## Disable Cloud-Init
+For some reason cloud-init gets in our way as we move forward. So we need to get rid of cloud-init to proceed.
+<pre>
+vyos@vyos:~$ <b>sudo apt remove cloud-init -y</b>
+vyos@vyos:~$ <b>sudo rm -f /etc/network/interfaces.d/50-cloud-init.cfg</b>
+</pre>
+
+## Apply VyOS Config
+Ok so I had some issues here geting the config working properly via SSH. I think we get disconnected when we change the interface config away from DHCP and to static. So I had to apply the config via the SOL console.
+
+Find the **Out_of_Band_Console** command in the Terraform output. Also you set the *vyos* users password in a previous step, you'll need that to login via the console.
+
+Once you run the **Out_of_Band_Console** command you may need to press ***Enter*** a couple times to be greeted with the ***vyos login:*** prompt.
+
+Once you've logged in and and are at the command line you'll need to go into ***config*** mode, and paste in the contents of the ***VyOS_Config_File*** from the terraform outputs (You can paste in multiple lines at once, but see the note below).
+
+There are a few places where you will see **### STOP HERE ###**. Read the comments in the file and do as instructed.
+
+## Done! Go setup the other side of the VPN!
+
