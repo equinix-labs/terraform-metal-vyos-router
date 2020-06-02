@@ -15,7 +15,7 @@ sudo mv terraform /usr/local/bin/
 To download this project, run the following command:
 
 ```bash
-git clone https://github.com/c0dyhi11/packet-router.git
+git clone https://github.com/packet-labs/packet-router.git
 cd packet-router
 ```
 
