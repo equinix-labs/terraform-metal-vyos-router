@@ -148,7 +148,7 @@ vyos@vyos:~$ <b>sudo rm -f /etc/network/interfaces.d/50-cloud-init.cfg</b>
 </pre>
 
 ## Apply VyOS Config
-Ok so I had some issues here geting the config working properly via SSH. I think we get disconnected when we change the interface config away from DHCP and to static. So I had to apply the config via the SOL console.
+Ok so I had some issues here geting the config working properly via SSH. I think we get disconnected when we change the interface config away from DHCP and to static. So I had to apply the config via the SOS console.
 
 Find the **Out_of_Band_Console** command in the Terraform output. Also you set the *vyos* users password in a previous step, you'll need that to login via the console.
 
