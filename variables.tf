@@ -1,11 +1,11 @@
 variable "auth_token" {
-    type = string
-    description = "Packet API Key"
+  type        = string
+  description = "Packet API Key"
 }
 
 variable "project_id" {
-    type = string
-    description = "The project id to deploy into"
+  type        = string
+  description = "The project id to deploy into"
 }
 
 variable "ipsec_peer_public_ip" {
@@ -32,9 +32,9 @@ variable "plan" {
 }
 
 variable "operating_system" {
-    type = string
-    description = "The Operating system of the node (This needs to be (custom_ipxe)"
-    default = "custom_ipxe"
+  type        = string
+  description = "The Operating system of the node (This needs to be (custom_ipxe)"
+  default     = "custom_ipxe"
 }
 
 variable "ipxe_script_url" {
@@ -45,13 +45,13 @@ variable "ipxe_script_url" {
 
 variable "always_pxe" {
   type        = bool
-  default     = false 
+  default     = false
   description = "Wheather to always boot via iPXE or not."
 }
 
 variable "billing_cycle" {
-    description = "How the node will be billed (Not usually changed)"
-    default = "hourly"
+  description = "How the node will be billed (Not usually changed)"
+  default     = "hourly"
 }
 
 variable "bgp_local_asn" {
