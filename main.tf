@@ -33,13 +33,18 @@ resource "packet_device" "router" {
   project_id       = var.project_id
   ipxe_script_url  = var.ipxe_script_url
   always_pxe       = var.always_pxe
-  network_type     = "hybrid"
+}
+
+resource "packet_device_network_type" "router" {
+  device_id = packet_device.router.id
+  type = "hybrid"
 }
 
 resource "packet_port_vlan_attachment" "router_vlan_attach" {
   device_id = packet_device.router.id
   port_name = "eth1"
   vlan_vnid = packet_vlan.private_vlan.vxlan
+  depends_on = [packet_device_network_type.router]
 }
 
 data "template_file" "vyos_config" {
