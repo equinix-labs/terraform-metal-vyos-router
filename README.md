@@ -160,6 +160,14 @@ vyos@vyos:~$ <b>sudo apt remove cloud-init -y</b>
 vyos@vyos:~$ <b>sudo rm -f /etc/network/interfaces.d/50-cloud-init.cfg</b>
 </pre>
 
+##
+After installing VyOS to disk, the Bare Metal Server should be rebooted before applying production configurations.
+
+<pre>
+vyos@vyos:~$ reboot
+Are you sure you want to reboot this system? [y/N]
+</pre>
+
 ## Apply VyOS Config
 
 Ok so I had some issues here getting the config working properly via SSH. I think we get disconnected when we change the interface config away from DHCP and to static. So I had to apply the config via the SOS console.
