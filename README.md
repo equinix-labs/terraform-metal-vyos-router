@@ -1,6 +1,10 @@
+![](https://img.shields.io/badge/Stability-Experimental-red.svg)
+
 # Deploy and IPSec VPN and Router on Packet Baremetal
 
 This repo will allow you to deploy a [VyOS router](https://www.vyos.io/products/#vyos-router) onto a [baremetal node in Packet](https://www.packet.com/cloud/). It will then generate a config file to setup an IPSec tunnel with a Cisco 1000v from [Equinix's ***Network Edge***](https://www.equinix.com/services/edge-services/network-edge/). As of now there is no way to fully automate the configuration of the router (That I've figured out). So we'll be doing a few steps by hand.
+
+This repository is [Experimental](https://github.com/packethost/standards/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
 
 ## Install Terraform
 
