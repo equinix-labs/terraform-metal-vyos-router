@@ -1,8 +1,8 @@
-provider "packet" {
+provider "metal" {
   auth_token = var.auth_token
 }
 
-resource "packet_vlan" "private_vlan" {
+resource "metal_vlan" "private_vlan" {
   facility    = var.facility
   project_id  = var.project_id
   description = "Private Network"
@@ -24,7 +24,7 @@ resource "random_string" "ipsec_psk" {
   special     = false
 }
 
-resource "packet_device" "router" {
+resource "metal_device" "router" {
   hostname         = var.hostname
   plan             = var.plan
   facilities       = [var.facility]
@@ -33,13 +33,12 @@ resource "packet_device" "router" {
   project_id       = var.project_id
   ipxe_script_url  = var.ipxe_script_url
   always_pxe       = var.always_pxe
-  network_type     = "hybrid"
 }
 
-resource "packet_port_vlan_attachment" "router_vlan_attach" {
-  device_id = packet_device.router.id
+resource "metal_port_vlan_attachment" "router_vlan_attach" {
+  device_id = metal_device.router.id
   port_name = "eth1"
-  vlan_vnid = packet_vlan.private_vlan.vxlan
+  vlan_vnid = metal_vlan.private_vlan.vxlan
 }
 
 data "template_file" "vyos_config" {
@@ -61,14 +60,14 @@ data "template_file" "vyos_config" {
     private_net_gateway_ip      = cidrhost(var.private_net_cidr, 2)
     public_dns_1_ip             = var.public_dns_1_ip
     public_dns_2_ip             = var.public_dns_2_ip
-    router_ipv6_gateway_ip      = packet_device.router.network.1.gateway
-    router_ipv6_ip_cidr         = format("%s/%s", packet_device.router.network.1.address, packet_device.router.network.1.cidr)
-    router_private_cidr         = format("%s/%s", cidrhost(format("%s/%s", packet_device.router.network.2.address, packet_device.router.network.2.cidr), 0), packet_device.router.network.2.cidr)
-    router_private_gateway_ip   = packet_device.router.network.2.gateway
-    router_private_ip_cidr      = format("%s/%s", packet_device.router.network.2.address, packet_device.router.network.2.cidr)
-    router_public_gateway_ip    = packet_device.router.network.0.gateway
-    router_public_ip_cidr       = format("%s/%s", packet_device.router.network.0.address, packet_device.router.network.0.cidr)
-    router_public_ip            = packet_device.router.network.0.address
+    router_ipv6_gateway_ip      = metal_device.router.network.1.gateway
+    router_ipv6_ip_cidr         = format("%s/%s", metal_device.router.network.1.address, metal_device.router.network.1.cidr)
+    router_private_cidr         = format("%s/%s", cidrhost(format("%s/%s", metal_device.router.network.2.address, metal_device.router.network.2.cidr), 0), metal_device.router.network.2.cidr)
+    router_private_gateway_ip   = metal_device.router.network.2.gateway
+    router_private_ip_cidr      = format("%s/%s", metal_device.router.network.2.address, metal_device.router.network.2.cidr)
+    router_public_gateway_ip    = metal_device.router.network.0.gateway
+    router_public_ip_cidr       = format("%s/%s", metal_device.router.network.0.address, metal_device.router.network.0.cidr)
+    router_public_ip            = metal_device.router.network.0.address
   }
 }
 

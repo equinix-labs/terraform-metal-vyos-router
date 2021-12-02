@@ -1,6 +1,6 @@
 variable "auth_token" {
   type        = string
-  description = "Packet API Key"
+  description = "Equinix Metal API Key"
 }
 
 variable "project_id" {
@@ -22,13 +22,13 @@ variable "hostname" {
 variable "facility" {
   type        = string
   default     = "iad2"
-  description = "Packet Facility to deploy into"
+  description = "Equinix Metal Facility to deploy into"
 }
 
 variable "plan" {
   type        = string
   default     = "c2.medium.x86"
-  description = "Packet device type to deploy"
+  description = "Equinix Metal device type to deploy"
 }
 
 variable "operating_system" {
@@ -81,7 +81,7 @@ variable "neighbor_short_name" {
 variable "private_net_cidr" {
   type        = string
   default     = "172.31.254.0/24"
-  description = "Private IP Space used for Packet Devices that will be advertized via BGP (/30 or greater)"
+  description = "Private IP Space used for Equinix Metal Devices that will be advertized via BGP (/30 or greater)"
 }
 
 variable "public_dns_1_ip" {
