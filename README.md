@@ -1,20 +1,21 @@
 ![](https://img.shields.io/badge/Stability-Experimental-red.svg)
 
-# Deploy and IPSec VPN and Router on Packet Baremetal
+# Deploy and IPSec VPN and Router on Equinix Metal Baremetal
 
-This repo will allow you to deploy a [VyOS router](https://www.vyos.io/products/#vyos-router) onto a [baremetal node in Packet](https://www.packet.com/cloud/). It will then generate a config file to setup an IPSec tunnel with a Cisco 1000v from [Equinix's ***Network Edge***](https://www.equinix.com/services/edge-services/network-edge/). As of now there is no way to fully automate the configuration of the router (That I've figured out). So we'll be doing a few steps by hand.
+This repo will allow you to deploy a [VyOS router](https://www.vyos.io/products/#vyos-router) onto a [baremetal node in Equinix Metal](https://metal.equinix.com/product/). It will then generate a config file to setup an IPSec tunnel with a Cisco 1000v from [Equinix's ***Network Edge***](https://www.equinix.com/services/edge-services/network-edge/). As of now there is no way to fully automate the configuration of the router (That I've figured out). So we'll be doing a few steps by hand.
 
-This repository is [Experimental](https://github.com/packethost/standards/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
+This repository is [Experimental](https://github.com/equinix-labs/equinix-labs/blob/master/experimental-statement.md) meaning that it's based on untested ideas or techniques and not yet established or finalized or involves a radically new and innovative style! This means that support is best effort (at best!) and we strongly encourage you to NOT use this in production.
 
 ## Install Terraform
 
-Terraform is just a single binary.  Visit their [download page](https://www.terraform.io/downloads.html), choose your operating system, make the binary executable, and move it into your path.
+It is east to get started with Terraform.  Visit [Hashicorp's "Install Terraform" guide](https://learn.hashicorp.com/tutorials/terraform/install-cli), and follow the steps provided to install Terraform and verify the installation.
 
 Here is an example for **macOS**:
 
 ```bash
-curl -LO https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_darwin_amd64.zip
-unzip terraform_0.12.18_darwin_amd64.zip
+VERSION=1.0.11
+curl -LO https://releases.hashicorp.com/terraform/$VERSION/terraform_$VERSION_darwin_amd64.zip
+unzip terraform_$VERSION_darwin_amd64.zip
 chmod +x terraform
 sudo mv terraform /usr/local/bin/
 ```
@@ -24,8 +25,8 @@ sudo mv terraform /usr/local/bin/
 To download this project, run the following command:
 
 ```bash
-git clone https://github.com/packet-labs/packet-router.git
-cd packet-router
+git clone https://github.com/equinix-labs/terraform-metal-vyos-router
+cd terraform-metal-vyos-router
 ```
 
 ## Initialize Terraform
@@ -34,7 +35,9 @@ Terraform uses modules to deploy infrastructure. In order to initialize the modu
 
 ## Modify your variables
 
-You will need to set three variables at a minimum and there are a lot more you may wish to modify in `variables.tf`
+You will need to set three required variables. Other variables are described in `variables.tf`.
+
+Here's an example `terraform.tfvars` file to get started with. Terraform will read variable values from this file automatically. Create this file and replace the example `project_id`and `auth_token` with your own.
 
 ```bash
 cat <<EOF >terraform.tfvars
@@ -61,7 +64,7 @@ BGP_Password = JSWwskQHFt2KBSZu2O
 IPSec_Pre_Shared_Key = iORwUH75vMxQkyX5AZ85
 IPSec_Private_IP_CIDR = 169.254.254.254/30
 IPSec_Public_IP = 147.75.63.66
-Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.iad2.packet.net
+Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.iad2.platformequinix.com
 SSH = ssh vyos@147.75.63.66
 VyOS_Config_File = ./vyos.conf
 ```
@@ -165,6 +168,7 @@ vyos@vyos:~$ <b>sudo rm -f /etc/network/interfaces.d/50-cloud-init.cfg</b>
 </pre>
 
 ##
+
 After installing VyOS to disk, the Bare Metal Server should be rebooted before applying production configurations.
 
 <pre>
