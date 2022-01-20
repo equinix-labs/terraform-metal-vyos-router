@@ -4,7 +4,7 @@ output "SSH" {
 }
 
 output "Out_of_Band_Console" {
-  value       = "ssh ${metal_device.router.id}@sos.${lower(var.facility)}.platformequinix.com"
+  value       = "ssh ${metal_device.router.id}@sos.${lower(var.metro)}.platformequinix.com"
   description = "Command to SSH into the Serial over Lan Console of the VyOS Router"
 }
 
