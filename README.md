@@ -165,6 +165,26 @@ exit
 vyos@vyos:~$
 </pre>
 
+## Enable support for the Out-of-Band console
+
+We need to set the correct serial console settings so that you get output on the Out-of-Band console. The following will enable the serial console:
+
+<pre>
+vyos@vyos:~$ <b>conf</b>
+[edit]
+vyos@vyos# <b>set system console device ttyS1 speed 115200</b>
+[edit]
+vyos@vyos# <b>commit</b>
+[edit]
+vyos@vyos# <b>save</b>
+Saving configuration to '/config/config.boot'...
+Done
+[edit]
+vyos@vyos# <b>exit</b>
+exit
+vyos@vyos:~$
+</pre>
+
 ## Disable Cloud-Init
 
 For some reason cloud-init gets in our way as we move forward. So we need to get rid of cloud-init to proceed.
