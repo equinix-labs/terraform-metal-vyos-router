@@ -31,7 +31,13 @@ cd terraform-metal-vyos-router
 
 ## Initialize Terraform
 
-Terraform uses modules to deploy infrastructure. In order to initialize the modules your simply run: `terraform init`. This should download modules into a hidden directory `.terraform`
+Terraform uses modules to deploy infrastructure. In order to initialize the modules your simply run the following:
+
+```bash
+terraform init
+```
+
+This should download modules into a hidden directory `.terraform`
 
 ## Modify your variables
 
