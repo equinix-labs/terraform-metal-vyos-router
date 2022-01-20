@@ -19,15 +19,15 @@ variable "hostname" {
   description = "Hostname for router"
 }
 
-variable "facility" {
+variable "metro" {
   type        = string
-  default     = "iad2"
+  default     = "DC"
   description = "Equinix Metal Facility to deploy into"
 }
 
 variable "plan" {
   type        = string
-  default     = "c2.medium.x86"
+  default     = "c3.small.x86"
   description = "Equinix Metal device type to deploy"
 }
 
