@@ -79,7 +79,7 @@ VyOS_Config_File = ./vyos.conf
 
 What we want to do here is install VyOS to the local disk on the system and set a password.
 
-There is no automated way to do this yet (I have been informed there is, it uses cloud-init, I'll look into this), so you need too SSH into the box and run the command `install image` and follow the prompts. Find the **SSH** command in the terraform outputs.
+There is no automated way to do this yet (I have been informed there is, it uses cloud-init, I'll look into this), so you need to SSH into the box and run the command `install image` and follow the prompts. Find the **SSH** command in the terraform outputs.
 
 I've attached the output of me doing this with all of the input's in **Bold**. A lot of the options can use the defaults.
 <pre>
