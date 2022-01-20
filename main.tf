@@ -35,10 +35,16 @@ resource "metal_device" "router" {
   always_pxe       = var.always_pxe
 }
 
-resource "metal_port_vlan_attachment" "router_vlan_attach" {
+resource "metal_device_network_type" "convert-networking" {
   device_id = metal_device.router.id
-  port_name = "eth1"
-  vlan_vnid = metal_vlan.private_vlan.vxlan
+  type      = "hybrid"
+}
+
+resource "metal_port_vlan_attachment" "router_vlan_attach" {
+  depends_on = [metal_device_network_type.convert-networking]
+  device_id  = metal_device.router.id
+  port_name  = "eth1"
+  vlan_vnid  = metal_vlan.private_vlan.vxlan
 }
 
 data "template_file" "vyos_config" {
