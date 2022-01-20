@@ -64,7 +64,7 @@ BGP_Password = JSWwskQHFt2KBSZu2O
 IPSec_Pre_Shared_Key = iORwUH75vMxQkyX5AZ85
 IPSec_Private_IP_CIDR = 169.254.254.254/30
 IPSec_Public_IP = 147.75.63.66
-Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.iad2.platformequinix.com
+Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.dc13.platformequinix.com
 SSH = ssh vyos@147.75.63.66
 VyOS_Config_File = ./vyos.conf
 ```
