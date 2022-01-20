@@ -3,7 +3,7 @@ provider "metal" {
 }
 
 resource "metal_vlan" "private_vlan" {
-  facility    = var.facility
+  metro       = var.metro
   project_id  = var.project_id
   description = "Private Network"
 }
@@ -27,7 +27,7 @@ resource "random_string" "ipsec_psk" {
 resource "metal_device" "router" {
   hostname         = var.hostname
   plan             = var.plan
-  facilities       = [var.facility]
+  metro            = var.metro
   operating_system = var.operating_system
   billing_cycle    = var.billing_cycle
   project_id       = var.project_id
