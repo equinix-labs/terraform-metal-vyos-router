@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Stability-Experimental-red.svg)
 
-# Deploy and IPSec VPN and Router on Equinix Metal Baremetal
+# Deploy an Edge Router with IPSec VPN on Equinix Metal
 
 This repo will allow you to deploy a [VyOS router](https://www.vyos.io/products/#vyos-router) onto a [baremetal node in Equinix Metal](https://metal.equinix.com/product/). It will then generate a config file to setup an IPSec tunnel with a Cisco 1000v from [Equinix's ***Network Edge***](https://www.equinix.com/services/edge-services/network-edge/). As of now there is no way to fully automate the configuration of the router (That I've figured out). So we'll be doing a few steps by hand.
 
