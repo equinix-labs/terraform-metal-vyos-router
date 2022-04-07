@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Stability-Experimental-red.svg)
 
-# Deploy and IPSec VPN and Router on Equinix Metal Baremetal
+# Deploy an Edge Router with IPSec VPN on Equinix Metal
 
 This repo will allow you to deploy a [VyOS router](https://www.vyos.io/products/#vyos-router) onto a [baremetal node in Equinix Metal](https://metal.equinix.com/product/). It will then generate a config file to setup an IPSec tunnel with a Cisco 1000v from [Equinix's ***Network Edge***](https://www.equinix.com/services/edge-services/network-edge/). As of now there is no way to fully automate the configuration of the router (That I've figured out). So we'll be doing a few steps by hand.
 
@@ -31,7 +31,13 @@ cd terraform-metal-vyos-router
 
 ## Initialize Terraform
 
-Terraform uses modules to deploy infrastructure. In order to initialize the modules your simply run: `terraform init`. This should download modules into a hidden directory `.terraform`
+Terraform uses modules to deploy infrastructure. In order to initialize the modules your simply run the following:
+
+```bash
+terraform init
+```
+
+This should download modules into a hidden directory `.terraform`
 
 ## Modify your variables
 
@@ -64,7 +70,7 @@ BGP_Password = JSWwskQHFt2KBSZu2O
 IPSec_Pre_Shared_Key = iORwUH75vMxQkyX5AZ85
 IPSec_Private_IP_CIDR = 169.254.254.254/30
 IPSec_Public_IP = 147.75.63.66
-Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.iad2.platformequinix.com
+Out_of_Band_Console = ssh 81b3e87b-3a31-4957-9898-a67e3ddfaf05@sos.dc13.platformequinix.com
 SSH = ssh vyos@147.75.63.66
 VyOS_Config_File = ./vyos.conf
 ```
@@ -73,7 +79,7 @@ VyOS_Config_File = ./vyos.conf
 
 What we want to do here is install VyOS to the local disk on the system and set a password.
 
-There is no automated way to do this yet (I have been informed there is, it uses cloud-init, I'll look into this), so you need too SSH into the box and run the command `install image` and follow the prompts. Find the **SSH** command in the terraform outputs.
+There is no automated way to do this yet (I have been informed there is, it uses cloud-init, I'll look into this), so you need to SSH into the box and run the command `install image` and follow the prompts. Find the **SSH** command in the terraform outputs.
 
 I've attached the output of me doing this with all of the input's in **Bold**. A lot of the options can use the defaults.
 <pre>
@@ -147,6 +153,26 @@ Wait... Didn't VyOS just ask me to set a password for the **vyos** two minutes a
 vyos@vyos:~$ <b>conf</b>
 [edit]
 vyos@vyos# <b>set system login user vyos authentication plaintext-password '$3cur3P@$$w0rd!'</b>
+[edit]
+vyos@vyos# <b>commit</b>
+[edit]
+vyos@vyos# <b>save</b>
+Saving configuration to '/config/config.boot'...
+Done
+[edit]
+vyos@vyos# <b>exit</b>
+exit
+vyos@vyos:~$
+</pre>
+
+## Enable support for the Out-of-Band console
+
+We need to set the correct serial console settings so that you get output on the Out-of-Band console. The following will enable the serial console:
+
+<pre>
+vyos@vyos:~$ <b>conf</b>
+[edit]
+vyos@vyos# <b>set system console device ttyS1 speed 115200</b>
 [edit]
 vyos@vyos# <b>commit</b>
 [edit]

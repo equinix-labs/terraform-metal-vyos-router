@@ -3,7 +3,7 @@ provider "metal" {
 }
 
 resource "metal_vlan" "private_vlan" {
-  facility    = var.facility
+  metro       = var.metro
   project_id  = var.project_id
   description = "Private Network"
 }
@@ -27,7 +27,7 @@ resource "random_string" "ipsec_psk" {
 resource "metal_device" "router" {
   hostname         = var.hostname
   plan             = var.plan
-  facilities       = [var.facility]
+  metro            = var.metro
   operating_system = var.operating_system
   billing_cycle    = var.billing_cycle
   project_id       = var.project_id
@@ -35,10 +35,16 @@ resource "metal_device" "router" {
   always_pxe       = var.always_pxe
 }
 
-resource "metal_port_vlan_attachment" "router_vlan_attach" {
+resource "metal_device_network_type" "convert-networking" {
   device_id = metal_device.router.id
-  port_name = "eth1"
-  vlan_vnid = metal_vlan.private_vlan.vxlan
+  type      = "hybrid"
+}
+
+resource "metal_port_vlan_attachment" "router_vlan_attach" {
+  depends_on = [metal_device_network_type.convert-networking]
+  device_id  = metal_device.router.id
+  port_name  = "eth1"
+  vlan_vnid  = metal_vlan.private_vlan.vxlan
 }
 
 data "template_file" "vyos_config" {

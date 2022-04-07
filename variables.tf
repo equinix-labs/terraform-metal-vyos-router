@@ -19,15 +19,15 @@ variable "hostname" {
   description = "Hostname for router"
 }
 
-variable "facility" {
+variable "metro" {
   type        = string
-  default     = "iad2"
+  default     = "DC"
   description = "Equinix Metal Facility to deploy into"
 }
 
 variable "plan" {
   type        = string
-  default     = "c2.medium.x86"
+  default     = "c3.small.x86"
   description = "Equinix Metal device type to deploy"
 }
 
@@ -39,14 +39,14 @@ variable "operating_system" {
 
 variable "ipxe_script_url" {
   type        = string
-  default     = "http://s3.codyhill.co/vyos122.ipxe"
+  default     = "http://pxe.vyos.io/?uid=742e1f49-e756-4743-a293-5df768728a58&variant=vyos_packet&version=1.3.0-20220120155620"
   description = "Location of VyOS iPXE script"
 }
 
 variable "always_pxe" {
   type        = bool
   default     = false
-  description = "Wheather to always boot via iPXE or not."
+  description = "Whether to always boot via iPXE or not."
 }
 
 variable "billing_cycle" {
