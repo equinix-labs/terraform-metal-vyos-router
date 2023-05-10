@@ -2,9 +2,12 @@ terraform {
   required_version = ">= 1.0"
 
   required_providers {
-    metal = {
-      source  = "equinix/metal"
-      version = ">= 3.2.0"
+    equinix = {
+      source  = "equinix/equinix"
+      version = "~> 1.14"
     }
+  }
+  provider_meta "equinix" {
+    module_name = "equinix-vyos-router"
   }
 }

@@ -1,10 +1,10 @@
 output "SSH" {
-  value       = "ssh vyos@${metal_device.router.network.0.address}"
+  value       = "ssh vyos@${equinix_metal_device.router.network.0.address}"
   description = "Command to SSH into the VyOS Router"
 }
 
 output "Out_of_Band_Console" {
-  value       = "ssh ${metal_device.router.id}@sos.${lower(metal_device.router.deployed_facility)}.platformequinix.com"
+  value       = "ssh ${equinix_metal_device.router.id}@sos.${lower(equinix_metal_device.router.metro)}.platformequinix.com"
   description = "Command to SSH into the Serial over Lan Console of the VyOS Router"
 }
 
@@ -24,7 +24,7 @@ output "IPSec_Pre_Shared_Key" {
 }
 
 output "IPSec_Public_IP" {
-  value       = metal_device.router.network.0.address
+  value       = equinix_metal_device.router.network.0.address
   description = "Public IP for IPSec VPN"
 }
 
