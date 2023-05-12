@@ -1,8 +1,8 @@
-provider "metal" {
+provider "equinix" {
   auth_token = var.auth_token
 }
 
-resource "metal_vlan" "private_vlan" {
+resource "equinix_metal_vlan" "private_vlan" {
   metro       = var.metro
   project_id  = var.project_id
   description = "Private Network"
@@ -24,7 +24,7 @@ resource "random_string" "ipsec_psk" {
   special     = false
 }
 
-resource "metal_device" "router" {
+resource "equinix_metal_device" "router" {
   hostname         = var.hostname
   plan             = var.plan
   metro            = var.metro
@@ -35,16 +35,16 @@ resource "metal_device" "router" {
   always_pxe       = var.always_pxe
 }
 
-resource "metal_device_network_type" "convert-networking" {
-  device_id = metal_device.router.id
+resource "equinix_metal_device_network_type" "convert-networking" {
+  device_id = equinix_metal_device.router.id
   type      = "hybrid"
 }
 
-resource "metal_port_vlan_attachment" "router_vlan_attach" {
-  depends_on = [metal_device_network_type.convert-networking]
-  device_id  = metal_device.router.id
+resource "equinix_metal_port_vlan_attachment" "router_vlan_attach" {
+  depends_on = [equinix_metal_device_network_type.convert-networking]
+  device_id  = equinix_metal_device.router.id
   port_name  = "eth1"
-  vlan_vnid  = metal_vlan.private_vlan.vxlan
+  vlan_vnid  = equinix_metal_vlan.private_vlan.vxlan
 }
 
 data "template_file" "vyos_config" {
@@ -66,14 +66,14 @@ data "template_file" "vyos_config" {
     private_net_gateway_ip      = cidrhost(var.private_net_cidr, 2)
     public_dns_1_ip             = var.public_dns_1_ip
     public_dns_2_ip             = var.public_dns_2_ip
-    router_ipv6_gateway_ip      = metal_device.router.network.1.gateway
-    router_ipv6_ip_cidr         = format("%s/%s", metal_device.router.network.1.address, metal_device.router.network.1.cidr)
-    router_private_cidr         = format("%s/%s", cidrhost(format("%s/%s", metal_device.router.network.2.address, metal_device.router.network.2.cidr), 0), metal_device.router.network.2.cidr)
-    router_private_gateway_ip   = metal_device.router.network.2.gateway
-    router_private_ip_cidr      = format("%s/%s", metal_device.router.network.2.address, metal_device.router.network.2.cidr)
-    router_public_gateway_ip    = metal_device.router.network.0.gateway
-    router_public_ip_cidr       = format("%s/%s", metal_device.router.network.0.address, metal_device.router.network.0.cidr)
-    router_public_ip            = metal_device.router.network.0.address
+    router_ipv6_gateway_ip      = equinix_metal_device.router.network.1.gateway
+    router_ipv6_ip_cidr         = format("%s/%s", equinix_metal_device.router.network.1.address, equinix_metal_device.router.network.1.cidr)
+    router_private_cidr         = format("%s/%s", cidrhost(format("%s/%s", equinix_metal_device.router.network.2.address, equinix_metal_device.router.network.2.cidr), 0), equinix_metal_device.router.network.2.cidr)
+    router_private_gateway_ip   = equinix_metal_device.router.network.2.gateway
+    router_private_ip_cidr      = format("%s/%s", equinix_metal_device.router.network.2.address, equinix_metal_device.router.network.2.cidr)
+    router_public_gateway_ip    = equinix_metal_device.router.network.0.gateway
+    router_public_ip_cidr       = format("%s/%s", equinix_metal_device.router.network.0.address, equinix_metal_device.router.network.0.cidr)
+    router_public_ip            = equinix_metal_device.router.network.0.address
   }
 }
 
